@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 const SearchBox = (SearchFrame, SearchInput, SearchResults) => {
     return class extends Component {
         static propTypes = {
-            searchStore: React.PropTypes.object.isRequired
+            searchStore: React.PropTypes.object.isRequired,
         };
 
         render() {
@@ -13,7 +13,9 @@ const SearchBox = (SearchFrame, SearchInput, SearchResults) => {
                                  onQueryUpdate={value => this.props.searchStore.updateQuery(value)}
                                  onSubmit={() => this.props.searchStore.search()}
                     />
-                    <SearchResults results={this.props.searchStore.results.slice()}/>
+                    <SearchResults
+                        results={this.props.searchStore.results.slice()}
+                        onSelectTerm={value => this.props.searchStore.selectTerm(value)}/>
                 </SearchFrame>
             );
         }

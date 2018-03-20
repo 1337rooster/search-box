@@ -23,6 +23,7 @@ const WebSearchFrame = ({children}) => {
     );
 };
 
-const WebSearchBox = ListItem => observer(SearchBox(WebSearchFrame, WebSearchInput, WebSearchResults(ListItem)));
+const WebSearchBox = (ListItem) => observer(SearchBox(
+    WebSearchFrame, WebSearchInput, WebSearchResults(ListItem)));
 
 export default WebSearchBox

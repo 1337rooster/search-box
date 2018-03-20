@@ -5,6 +5,9 @@
  */
 
 import React, { Component } from 'react';
+import ColorSearchBox from './ColorMobileSearchBox';
+import Colors from './colors'
+
 import {
   AppRegistry,
   StyleSheet,
@@ -12,8 +15,13 @@ import {
   View
 } from 'react-native';
 
+
 export default class SearchBoxMobile extends Component {
   render() {
+    return (
+      <ColorSearchBox searchStore={new Colors()}/>
+    );
+    /*
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -27,7 +35,7 @@ export default class SearchBoxMobile extends Component {
           Shake or press menu button for dev menu
         </Text>
       </View>
-    );
+    );*/
   }
 }
 
