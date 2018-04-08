@@ -5,7 +5,11 @@ import {
     View,
     TextInput,
     ListView,
-    Text
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    TouchableNativeFeedback,
+    TouchableWithoutFeedback,
 } from 'react-native';
 
 import MobileSearchBox from './common/MobileSearchBox';
@@ -21,11 +25,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const ColorListItem = ({result})=>{
+
+
+const ColorListItem = ({result, onClickResult})=>{
+    console.log('result ' + result)
     return (
+      <TouchableHighlight onPress={onClickResult} underlayColor="blue">
         <View style={[styles.row, {backgroundColor: result.hex}]}>
-            <Text style={styles.text}>{result.name}</Text>
+          <Text style={styles.text}>{result.korean + ' (' + result.english + ')'}</Text>
         </View>
+      </TouchableHighlight>
     )
 };
 const ColorSearchBox = MobileSearchBox(ColorListItem);

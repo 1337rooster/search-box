@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "android": "react-native run-android",
+    "android": "npm run copy_common_files && react-native run-android",
+    "copy_common_files": "../copy_common_files.sh",
     "test": "jest"
   },
   "dependencies": {
