@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import WebSearchBox from './WebSearchBox';
+import WebSearchBox from './common/WebSearchBox';
 import './index.css';
 
-import Colors from './colors'
-import ColorListItem from './ColorListItem'
+import Colors from './common/colors'
+import ColorListItem from './common/ColorListItem'
 
 const ColorSearchBox = WebSearchBox(ColorListItem);
 

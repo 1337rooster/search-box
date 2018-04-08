@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 import ColorSearchBox from './ColorMobileSearchBox';
-import Colors from './colors'
+import Colors from './common/colors'
 
 import {
   AppRegistry,

@@ -1,7 +1,6 @@
 import {extendObservable, runInAction} from 'mobx';
 //import crayola from './crayola.json'
 import korean_words from './assist/korean_words.json'
-//import TermManager from './assist/TermManager';
 
 export default class Colors {
     constructor() {

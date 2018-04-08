@@ -8,7 +8,7 @@ import {
     Text
 } from 'react-native';
 
-import MobileSearchBox from './MobileSearchBox';
+import MobileSearchBox from './common/MobileSearchBox';
 
 const styles = StyleSheet.create({
     row: {
