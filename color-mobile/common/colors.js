@@ -12,6 +12,8 @@ export default class Colors {
 
     search() {
         runInAction(() => {
+            console.log('BEFORE search end: ' + this.query.toLowerCase()
+                + ' query: ' + this.query);
             const query_split = this.query.split(' ');
             if (query_split.length === 0) {
               return;
@@ -28,17 +30,22 @@ export default class Colors {
                 }
               }
             };
-            console.log('search end: '+ this.query.toLowerCase());
+            console.log('AFTER search end: '+ this.query.toLowerCase()
+                + ' query: ' + this.query);
         });
     }
 
     updateQuery(value) {
-        console.log('updateQuery ' + value);
-        runInAction(() => this.query = value);
+        runInAction(() => {
+          console.log('BEFORE updateQuery ' + value + ' query: ' + this.query);
+          this.query = value
+          console.log('AFTER updateQuery ' + value + ' query: ' + this.query);
+        });
     }
 
     selectTerm(value) {
-        console.log('selectTerm ' + value);
+      runInAction(() => {
+        console.log('BEFORE selectTerm ' + value + ' query: ' + this.query);
         const query_split = this.query.split(' ');
         if (query_split.length === 0) {
           return;
@@ -46,5 +53,7 @@ export default class Colors {
         // Set the last term to the new value
         query_split[query_split.length - 1] = value;
         this.query = query_split.join(' ');
+        console.log('AFTER selectTerm ' + value + ' query: ' + this.query);
+      });
     }
 }

@@ -22,13 +22,19 @@ const MobileSearchResults = ListItem => {
         }
 
         static propTypes = {
-            results: React.PropTypes.array.isRequired
+            results: React.PropTypes.array.isRequired,
+            onSelectTerm: React.PropTypes.func.isRequired
         };
 
         renderRow = (rowData, sectionId, rowID) => {
+            const selectTerm = (event) => {
+                console.log('selectTerm');
+                this.props.onSelectTerm(result.korean);
+            };
+
             console.log("rowData " + rowData);
             return (
-                <ListItem result={rowData}/>
+                <ListItem result={rowData} onClickResult={selectTerm}/>
             );
         };
 
