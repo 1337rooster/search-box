@@ -20,7 +20,7 @@ export default class Colors {
             }
             const last_term = query_split[query_split.length - 1];
             
-            this.results = [];
+            this.results.length = 0;
             for (var i = 0; i < korean_words.length; i++) {
               const term = korean_words[i];
               if (term.english.toLowerCase().includes(last_term.toLowerCase())) {
@@ -30,7 +30,7 @@ export default class Colors {
                 }
               }
             };
-            console.log('AFTER search end: '+ this.query.toLowerCase()
+            console.log('AFTER search end: ' + this.query.toLowerCase()
                 + ' query: ' + this.query);
         });
     }

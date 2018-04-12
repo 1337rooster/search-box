@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
 // (Make material-ui happy)
@@ -13,7 +13,11 @@ import {ListItem, List, Divider, TextField} from 'material-ui';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+
 import Colors from './common/colors'
+
+import {observer} from 'mobx-react';
+
 
 // primaryText can be a block element instead of a string.
 const KoreanListItem = ({result, onClickResult}) => {
@@ -26,70 +30,81 @@ const KoreanListItem = ({result, onClickResult}) => {
   );
 };
 
-
 const KoreanSearchPage = () => {
-  var store = new Colors();
-  var textField = null;
-
-  const listItems = store.results.map((result, index) => {
-    console.log('listItems ');
-    const selectTerm = (event) => {
-      console.log('selectTerm ');
-      store.selectTerm(result.korean);
+  return class extends Component {
+    static propTypes = {
+        store: React.PropTypes.object.isRequired,
     };
-    return (
-      <KoreanListItem key={`result-${index}`} result={result} onClickResult={selectTerm}/>
-    );
-  });
+  
+    render() {
 
-  const focusTextField = () => {
-    console.log('focusTextField');
-    // Explicitly focus the text input using the raw DOM API
-    textField.focus();
-  };
+      var textField = null;
+      const store = this.props.store;
+    
+      const focusTextField = () => {
+        console.log('focusTextField');
+        // Explicitly focus the text input using the raw DOM API
+        textField.focus();
+      };
+    
+      const handleKeyDown = (event) => {
+        console.log('BEFORE handleKeyDown store.query ' + store.query);
+        const ENTER_KEY = 13;
+        if (event.keyCode === ENTER_KEY) {
+          event.preventDefault();
+          //onSubmit();
+          store.search();
+        }
+        console.log('AFTER handleKeyDown store.query ' + store.query);
+      };
+    
+      const handleOnChange = (event, value) => {
+        console.log('BEFORE handleOnChange ' + value + " store.query " + store.query);
+        //onQueryUpdate(value);
+        store.updateQuery(value)
+        //onSubmit();
+        store.search();
+        focusTextField();
+        console.log('AFTER handleOnChange ' + value + " store.query " + store.query);
+      };
 
-  const handleKeyDown = (event) => {
-    console.log('BEFORE handleKeyDown store.query ' + store.query);
-    const ENTER_KEY = 13;
-    if (event.keyCode === ENTER_KEY) {
-      event.preventDefault();
-      //onSubmit();
-      store.search();
-    }
-    console.log('AFTER handleKeyDown store.query ' + store.query);
-  };
+      const listItems = store.results.map((result, index) => {
+        console.log('listItems');
+        const selectTerm = (event) => {
+          console.log('selectTerm');
+          store.selectTerm(result.korean);
+        };
+        return (
+          <KoreanListItem key={`result-${index}`} result={result} onClickResult={selectTerm}/>
+        );
+      });
 
-  const handleOnChange = (event, value) => {
-    console.log('BEFORE handleOnChange ' + value + " store.query " + store.query);
-    //onQueryUpdate(value);
-    store.updateQuery(value)
-    //onSubmit();
-    store.search();
-    focusTextField();
-    console.log('AFTER handleOnChange ' + value + " store.query " + store.query);
-  };
-
-  return <MuiThemeProvider>
-    <div>
-        
-    <TextField hintText="Search..."
-      floatingLabelFixed={true}
-      fullWidth={true}
-      //value={store.query}
-      onChange={handleOnChange}
-      onKeyDown={handleKeyDown}
-      ref={(field) => { textField = field; }}
-      />
-    <List>
-      {listItems}
-    </List>
-
-    </div>
-  </MuiThemeProvider>
+      return <MuiThemeProvider>
+        <div>
+            
+        <TextField hintText="Search..."
+          floatingLabelFixed={true}
+          fullWidth={true}
+          value={store.query}
+          onChange={handleOnChange}
+          onKeyDown={handleKeyDown}
+          ref={(field) => { textField = field; }}
+          />
+        <List>
+          {listItems}
+        </List>
+    
+        </div>
+      </MuiThemeProvider>;
+    };
+  }
 }
 
+const KoreanSearchPageView = observer(KoreanSearchPage());
+const pageElement = <KoreanSearchPageView store={new Colors()}/>;
+
 ReactDOM.render(
-  <KoreanSearchPage/>,
+  pageElement,
   document.getElementById('root')
 );
 
