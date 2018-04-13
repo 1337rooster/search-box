@@ -42,37 +42,49 @@ const KoreanSearchPage = () => {
       const store = this.props.store;
     
       const focusTextField = () => {
-        console.log('focusTextField');
+        console.log('focusTextField ' + textField.input.selectionStart);
         // Explicitly focus the text input using the raw DOM API
         textField.focus();
       };
     
-      const handleKeyDown = (event) => {
-        console.log('BEFORE handleKeyDown store.query ' + store.query);
-        const ENTER_KEY = 13;
-        if (event.keyCode === ENTER_KEY) {
-          event.preventDefault();
-          //onSubmit();
-          store.search();
-        }
-        console.log('AFTER handleKeyDown store.query ' + store.query);
-      };
-    
-      const handleOnChange = (event, value) => {
-        console.log('BEFORE handleOnChange ' + value + " store.query " + store.query);
-        //onQueryUpdate(value);
-        store.updateQuery(value)
-        //onSubmit();
-        store.search();
+      const changed = () => {
+        var caretPos = textField.input.selectionStart;
+        store.search(caretPos);
         focusTextField();
-        console.log('AFTER handleOnChange ' + value + " store.query " + store.query);
+      }
+
+      const handleKeyDown = (event) => {
+        //const ENTER_KEY = 13;
+        //const LEFT_ARROW = 37;
+        const UP_ARROW = 38;
+        //const RIGHT_ARROW = 39;
+        const DOWN_ARROW =	40;
+        if (event.keyCode === DOWN_ARROW) {
+          console.log('DOWN_ARROW');
+        }
+        if (event.keyCode === UP_ARROW) {
+          console.log('UP_ARROW');
+        }
+        changed();
+      };
+
+      const handleOnClick = (event) => {
+        changed();
+      }
+
+      const handleOnFocus = (event) => {
+        changed();
+      }
+
+      const handleOnChange = (event, value) => {
+        store.updateQuery(value);
+        changed();
       };
 
       const listItems = store.results.map((result, index) => {
-        console.log('listItems');
         const selectTerm = (event) => {
-          console.log('selectTerm');
-          store.selectTerm(result.korean);
+          var caretPos = textField.input.selectionStart;
+          store.selectTerm(result.korean, caretPos);
         };
         return (
           <KoreanListItem key={`result-${index}`} result={result} onClickResult={selectTerm}/>
@@ -87,7 +99,9 @@ const KoreanSearchPage = () => {
           fullWidth={true}
           value={store.query}
           onChange={handleOnChange}
-          onKeyDown={handleKeyDown}
+          onClick={handleOnClick}
+          onKeyUp={handleKeyDown}
+          onFocus={handleOnFocus}
           ref={(field) => { textField = field; }}
           />
         <List>
